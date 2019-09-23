@@ -33,7 +33,7 @@
                 <el-row :gutter="20">
                     <el-col :span="4">
                         <div class="grid-content bg-purple">
-                            <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
+                            <el-button type="primary" icon="el-icon-arrow-left" @click="nextProject('pre')">上一页</el-button>
                         </div>
                     </el-col>
                     <el-col :span="16">
@@ -41,7 +41,7 @@
                     </el-col>
                     <el-col :span="4">
                         <div class="grid-content bg-purple">
-                            <el-button type="primary" @click="nextProject">下一项<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+                            <el-button type="primary" @click="nextProject('next')">下一项<i class="el-icon-arrow-right el-icon--right"></i></el-button>
                         </div>
                     </el-col>
                 </el-row>
@@ -161,8 +161,13 @@
                 this.canvasMouseDown = false;
                 //console.log('鼠标离开画布')
             },
-            nextProject:function () {
-                this.$router.push('/chinaword')
+            nextProject:function (e) {
+                if(e=='next'){
+                    this.$router.push('/chinaword')
+                }else if(e=='pre'){
+                    this.$router.push('/seasons')
+                }
+
             }
 
         },

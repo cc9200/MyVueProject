@@ -1,6 +1,6 @@
 <template>
     <div id="ChinaWord">
-        <h1>成语接龙</h1>
+        <h2 class="title">成语接龙</h2>
         <el-row>
             <el-col :span="8" class="explain-out">
                 <div class="grid-content bg-purple chengyu-explain">
@@ -115,17 +115,17 @@
 
                     if (this.words.length == 0) {
                         //第一次输入不检查拼音
-                        if ('chengyu' in resObj) {
+                        if ( resObj['chengyu']) {
                             //是成语
                             this.handlePush(word, resObj)
                         } else {
                             //不是成语
                             if (resObj['result'] == 4) {
-                                this.tips = '这不是成语吧  23333'
+                                this.tips = word+'???  这不是成语吧  23333'
 
                             } else {
                                 console.log(resObj)
-                                this.tips = '接不上您的成语，你赢了'
+                                this.tips = word+'  emmmm……接不上您的成语，你赢了'
                             }
 
 
@@ -138,11 +138,11 @@
 
                         } else {
                             if (resObj['result'] == 4) {
-                                this.tips = '这不是成语吧  233'
+                                this.tips = word+'???  这不是成语吧  23333'
 
                             } else {
                                 console.log(resObj)
-                                this.tips = '接不上您的成语，你赢了'
+                                this.tips = word+'  emmmm……接不上您的成语，你赢了'
                             }
                         }
                     }
@@ -169,7 +169,7 @@
                             this.handlePush(word, resObj)
 
                         } else {
-                            this.tips = '倒是个成语，不过拼音没接上吧'
+                            this.tips =word+ ',倒是个成语，不过拼音没接上吧'
                         }
                     } else {
                         console.log('可能是网络请求出错了吧')
@@ -206,7 +206,7 @@
                     this.checkIsChengyu(word)
                 } else {
                     //不是四个字
-                    this.tips = '这都不是四个字，不要胡乱输入哦'
+                    this.tips = word+',-_-||，这都不是四个字，不要胡乱输入哦'
                 }
 
 
@@ -254,5 +254,10 @@
         width: 100%;
         overflow: hidden;
         background-size: cover;
+    }
+    .title{
+        text-align: center;
+        font-family: 华文行楷;
+
     }
 </style>
