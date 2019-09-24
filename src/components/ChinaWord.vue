@@ -8,64 +8,58 @@
                 </div>
             </el-col>
             <el-col :span="8">
-                <div class="grid-content bg-purple-light">
-                    <div v-for="(word,index) in words">
+                <div class="grid-content chengyu_list_box">
+                    <div v-for="(word,index) in words" id="chengyu_list">
                         <div v-if="index%2==0">
-                            <p class="player_chengyu">
-                                {{word}}
-                            </p>
+                            <div class="player_chengyu_box">
+                                <div class="player_chengyu">
+                                    {{word}}
+                                </div>
+                            </div>
+
                         </div>
                         <div v-else>
-                            <p class="cpu_chengyu">
+                            <div class="cpu_chengyu_box"><p class="cpu_chengyu">
                                 {{word}}
-                            </p>
+                            </p></div>
+
                         </div>
                     </div>
                 </div>
+                <el-row :span="24" id="chengyu_input_out">
+
+                    <el-col :span="20">
+                        <div class="grid-content bg-purple">
+                            <el-input
+                                    id="chengyu_input"
+                                    v-model="input"
+                                    placeholder="请输入一个成语"
+                                    maxlength="4"
+                                    minlength="4"
+                                    clearable
+                                    autofocus="false"
+                                    :disabled="inputDisabled"
+                                    @keyup.enter.native="ok"
+                                    ref="chengyu_input"
+                            ></el-input>
+                        </div>
+
+                    </el-col>
+                    <el-col :span="4">
+                        <div class="grid-content">
+                            <el-button id="okButton" @click="ok">确定</el-button>
+                        </div>
+                    </el-col>
+
+                </el-row>
+                <el-row>
+                    <div><p class="tips">{{tips}}</p></div>
+                </el-row>
             </el-col>
-            <el-col :span="8">
-                <div class="grid-content bg-purple chengyu-explain"></div>
-            </el-col>
+
+
         </el-row>
 
-        <div>
-            <el-row>
-                <el-col :span="8">
-                    <div class="grid-content bg-purple"><p></p></div>
-                </el-col>
-                <el-col :span="8">
-                    <el-row>
-                        <el-col :span="18">
-                            <div class="grid-content bg-purple">
-                                <el-input
-                                        v-model="input"
-                                        placeholder="请输入一个成语"
-                                        maxlength="4"
-                                        minlength="4"
-                                        clearable
-                                        :disabled="inputDisabled"
-                                        @keyup.enter.native="ok"
-                                ></el-input>
-                            </div>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="grid-content bg-purple-light">
-                                <el-button @click="ok">确定</el-button>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <div><p class="tips">{{tips}}</p></div>
-                    </el-row>
-                </el-col>
-
-
-                <el-col :span="8">
-                    <div class="grid-content bg-purple"></div>
-                    <p></p></el-col>
-            </el-row>
-
-        </div>
 
     </div>
 </template>
@@ -82,6 +76,17 @@
                 tips: '',
                 inputDisabled: false,
                 cpu_explain: ' ',
+            }
+        },
+        watch: {
+            inputDisabled: function (N, O) {
+                if (!N) {
+                    // this.$refs['chengyu_input'].focus()
+                    document.getElementById('chengyu_input').focus()
+                    console.log('focus')
+                }
+
+
             }
         },
         methods: {
@@ -115,17 +120,17 @@
 
                     if (this.words.length == 0) {
                         //第一次输入不检查拼音
-                        if ( resObj['chengyu']) {
+                        if (resObj['chengyu']) {
                             //是成语
                             this.handlePush(word, resObj)
                         } else {
                             //不是成语
                             if (resObj['result'] == 4) {
-                                this.tips = word+'???  这不是成语吧  23333'
+                                this.tips = word + '???  这不是成语吧  23333'
 
                             } else {
                                 console.log(resObj)
-                                this.tips = word+'  emmmm……接不上您的成语，你赢了'
+                                this.tips = word + '  emmmm……接不上您的成语，你赢了'
                             }
 
 
@@ -138,11 +143,11 @@
 
                         } else {
                             if (resObj['result'] == 4) {
-                                this.tips = word+'???  这不是成语吧  23333'
+                                this.tips = word + '???  这不是成语吧  23333'
 
                             } else {
                                 console.log(resObj)
-                                this.tips = word+'  emmmm……接不上您的成语，你赢了'
+                                this.tips = word + '  emmmm……接不上您的成语，你赢了'
                             }
                         }
                     }
@@ -169,7 +174,7 @@
                             this.handlePush(word, resObj)
 
                         } else {
-                            this.tips =word+ ',倒是个成语，不过拼音没接上吧'
+                            this.tips = word + ',倒是个成语，不过拼音没接上吧'
                         }
                     } else {
                         console.log('可能是网络请求出错了吧')
@@ -197,6 +202,9 @@
                 this.cpu_explain = explain
                 this.input = ''
                 this.inputDisabled = false
+                let ele = document.getElementById("chengyu_input")
+                ele.focus()
+                console.log(ele)
             },
             ok: function () {
                 //用输入后禁用输入框，等待后台数据处理
@@ -206,7 +214,7 @@
                     this.checkIsChengyu(word)
                 } else {
                     //不是四个字
-                    this.tips = word+',-_-||，这都不是四个字，不要胡乱输入哦'
+                    this.tips = word + ',-_-||，这都不是四个字，不要胡乱输入哦'
                 }
 
 
@@ -217,47 +225,90 @@
 </script>
 
 <style scoped>
-    .player_chengyu {
+    #chengyu_input_out {
+        /*text-align: center;*/
+    }
+
+    .chengyu_list_box {
+        /*position:relative;*/
+        min-height: 30vh;
+        margin: 10px 0;
+    }
+
+    .player_chengyu_box {
         text-align: right;
-        background-color: #ff8f65;
-        margin-left: 50%;
-        border-radius: 3px;
+    }
+
+    .player_chengyu {
+
+        /*position:reletive;*/
+        /*right:0;*/
+        display: inline;
+        background-color: rgba(38, 255, 35, 1);
+        padding: auto 10px;
+        font-size: 20px;
+        line-height: 1.8;
+        border-radius: 6px;
+    }
+
+    .cpu_chengyu_box {
+        text-align: left;
+        font-size: 20px;
+        line-height: 1.8;
+        border-radius: 6px;
     }
 
     .cpu_chengyu {
-        text-align: left;
-        background-color: #8786ff;
+        /*position:reletive;*/
+        /*left:0;*/
+        display: inline;
+        background-color: #FFF;
         margin-right: 50%;
         border-radius: 3px;
     }
 
     .tips {
-        color: aliceblue;
+        color: black;
     }
 
     .explain-out {
-        height: 100%;
+
     }
 
     .chengyu-explain {
         text-align: left;
-        font-size: small;
-        color: aliceblue;
+        font-size: 1em;
+        line-height: 1.8;
+        /*font-family:"华文行楷", "宋体", "微软雅黑";*/
+        color: darkslategrey;
         bottom: 0;
         padding: 0 10px 10px 10px;
-        white-space: pre-wrap;
+        white-space: pre-line;
     }
 
     #ChinaWord {
-        background: url("../assets/bkg.jpg");
-        min-height: 800px;
-        width: 100%;
-        overflow: hidden;
-        background-size: cover;
+        background: white url("../assets/zhujian.jpg");
+        background-attachment: fixed;
+        background-position: left top;
+        background-repeat: repeat;
+        /*background-size: cover;*/
+        /*filter: blur(1px);*/
+        height: 100vh;
+        /*width: 100%;*/
+        /*background_re;*/
+        /*background-size: cover;*/
     }
-    .title{
+
+    #okButton {
+        width: 100%;
+
+    }
+
+    .title {
         text-align: center;
-        font-family: 华文行楷;
+        font-family: "华文行楷", "宋体", "微软雅黑";
+        margin-top: 0;
+        padding-top: 5%;
 
     }
 </style>

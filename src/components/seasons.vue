@@ -1,11 +1,11 @@
 <template>
     <div id="body">
-        <img id='season_jpg'
-             :height='windowHeight'
-             :width='windowWidth'
+        <!--<img id='season_jpg'-->
+             <!--:height='windowHeight'-->
+             <!--:width='windowWidth'-->
 
-             :src="background_season_image"
-             alt="">
+             <!--:src="background_season_image"-->
+             <!--alt="">-->
         <div id="seasons_buttons_frame">
             <el-row>
                 <el-col :span="8">
@@ -119,14 +119,16 @@
                 </el-col>
                 <el-col :span="4">
                     <div id="music_play_button">
-                        <svg v-show='play' @click='toggle'  t="1569125125499" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        <svg v-show='!play' @click='toggle' t="1569125125499" class="icon" viewBox="0 0 1024 1024"
+                             version="1.1"
                              xmlns="http://www.w3.org/2000/svg" p-id="1450" width="64" height="64">
                             <path d="M416 336v352l28.944 12.576 227.056-176v-25.152l-227.056-176L416 336z m32 32.928L630.096 512 448 655.072V368.928z"
                                   fill="#e6e6e6" p-id="1451"></path>
                             <path d="M512 0C375.248 0 246.672 53.28 149.984 150 53.264 246.672 0 375.248 0 512s53.264 265.328 149.984 362.016C246.672 970.736 375.248 1024 512 1024s265.328-53.28 362.032-150C970.736 777.328 1024 648.752 1024 512s-53.264-265.328-149.984-362.016C777.328 53.264 648.752 0 512 0z m339.408 851.392C760.736 942.064 640.208 992 512 992c-128.208 0-248.736-49.936-339.392-140.624C81.936 760.736 32 640.208 32 512s49.936-248.736 140.608-339.392C263.264 81.936 383.792 32 512 32s248.736 49.952 339.408 140.624C942.08 263.264 992 383.792 992 512s-49.92 248.736-140.592 339.392z"
                                   fill="#e6e6e6" p-id="1452"></path>
                         </svg>
-                        <svg v-show='!play' @click='toggle' @keyup.space.native="toggle" t="1569125346586" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        <svg v-show='play' @click='toggle' @keyup.space.native="toggle" t="1569125346586" class="icon"
+                             viewBox="0 0 1024 1024" version="1.1"
                              xmlns="http://www.w3.org/2000/svg" p-id="1764" width="64" height="64">
                             <path d="M384 368h32v288h-32zM592 368h32v288h-32z" fill="#e6e6e6" p-id="1765"></path>
                             <path d="M512 0C375.248 0 246.672 53.28 149.984 150 53.264 246.672 0 375.248 0 512s53.264 265.328 149.984 362.016C246.672 970.736 375.248 1024 512 1024s265.328-53.28 362.032-150C970.736 777.328 1024 648.752 1024 512s-53.264-265.328-149.984-362.016C777.328 53.264 648.752 0 512 0z m339.408 851.392C760.736 942.064 640.208 992 512 992c-128.208 0-248.736-49.936-339.392-140.624C81.936 760.736 32 640.208 32 512s49.936-248.736 140.608-339.392C263.264 81.936 383.792 32 512 32s248.736 49.952 339.408 140.624C942.08 263.264 992 383.792 992 512s-49.92 248.736-140.592 339.392z"
@@ -135,7 +137,7 @@
                     </div>
                     <div class="grid-content ">
                         <audio id="audio"
-                                :muted='muted'
+                               :muted='muted'
                                :src="music_url"
 
                                autoplay
@@ -179,8 +181,8 @@
                 music_url: '',
                 muted: false,
                 music_volume: 1.0,
-                play:true,
-                background_season_image:'',
+                play: true,
+                background_season_image: '',
 
             }
         },
@@ -200,77 +202,77 @@
 
             }
         },
-        watch:{
-            music_volume:function (n,o) {
-                let audio=document.getElementById('audio')
-                audio.volume=n
+        watch: {
+            music_volume: function (n, o) {
+                let audio = document.getElementById('audio')
+                audio.volume = n
             }
         },
         methods: {
 
-            toggle:function(){
-                this.play=!this.play
-                let audio=document.getElementById('audio')
-                if(this.play){
+            toggle: function () {
+                this.play = !this.play
+                let audio = document.getElementById('audio')
+                if (this.play) {
                     audio.play()
-                }else{
+                } else {
                     audio.pause()
                 }
+
             },
             seasonButton: function (seasonName) {
+                this.play = true
                 if (seasonName == 'spring') {
-                    this.background_season_image='../assets/spring.jpg'
+                    this.background_season_image = '../assets/spring.jpg'
                     this.music_url = 'http://207.244.97.86/sounds/hipster/birds160.mp3'
 
                 } else if (seasonName == 'summer') {
-                    this.background_season_image='../assets/summer.jpg'
+                    this.background_season_image = '../assets/summer.jpg'
                     this.music_url = 'http://207.244.97.86/sounds/rain/splashing-rainfall160.mp3'
                 } else if (seasonName == 'autumn') {
-                    this.background_season_image='../assets/autumn.jpg'
+                    this.background_season_image = '../assets/autumn.jpg'
                     this.music_url = 'https://img.tukuppt.com/newpreview_music/09/04/10/5c8b05faef9c354084.mp3'
                 } else if (seasonName == 'winter') {
-                    this.background_season_image='../assets/winter.jpg'
+                    this.background_season_image = '../assets/winter.jpg'
                     this.music_url = 'http://207.244.97.86/sounds/hipster/snow.mp3'
                 } else {
                     console.log('点击事件参数错误')
                 }
+                document.getElementById("body").style.backgroundImage="url("+this.background_season_image+")"
+                // console.log(document.getElementById("body").style)
+
             }
         },
-        mounted: function () {
-
-            this.windowWidth = document.body.clientWidth
-
-            this.windowHeight = this.windowWidth * 512 / 768
-            this.bkg_margin = '-' + parseInt(this.windowHeight / 2 - document.body.clientHeight / 2 + 1) + "px 0"
-            // console.log(this.windowHeight)
-            let ele = document.getElementById('season_jpg')//image size 768*512
-            ele.style.margin = this.bkg_margin
-            // console.log(123,ele)
-            // ele.style.width = windowWidth + 'px'//
 
 
-        }
+
     }
 </script>
 <style>
-    html{
-        height:100vh;
+    html {
+        height: 100vh;
         /*overflow: hidden;*/
     }
-    body{
+
+    body {
         margin: 0;
-        height:100%;
+        height: 100%;
     }
 </style>
 <style scoped>
     #season_jpg {
 
-overflow: visible;
+        overflow: auto;
     }
 
     #body {
+        box-sizing: border-box;
+        height:100vh;
 
-
+        background-image: url("../assets/spring.jpg");
+        background-size: cover;
+        background-position: center center;
+        /*transform: ;*/
     }
 
     #seasons_buttons_frame {
@@ -278,7 +280,6 @@ overflow: visible;
         top: 60%;
         width: 100%;
         text-align: center;
-
 
     }
 
@@ -311,7 +312,8 @@ overflow: visible;
     .winter_button {
         background-color: rgba(139, 136, 134, 0.62);
     }
-    #play_pause_button svg{
+
+    #play_pause_button svg {
         margin-top: 8px;
         cursor: pointer;
     }
