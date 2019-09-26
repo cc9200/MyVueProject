@@ -9,6 +9,10 @@ const args = {
     'queryChengyuKey': 'c6d8fbd0b679940f16b0080eab057a0a',
     'queryChengyuUserID': '98105401289c18d858c169578ecf0125',
 
+    //Django
+    'DjangoBaseUrl':'http://localhost:8081/',
+    'reqForNewsUrl':'VueApi/reqHotNewsList'
+
 
 }
 
