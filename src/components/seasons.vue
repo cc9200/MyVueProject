@@ -1,11 +1,7 @@
 <template>
     <div id="body">
-        <!--<img id='season_jpg'-->
-             <!--:height='windowHeight'-->
-             <!--:width='windowWidth'-->
-
-             <!--:src="background_season_image"-->
-             <!--alt="">-->
+        <!--<img src="spring_jpg" alt="">-->
+        <div id="dropLayer"></div>
         <div id="seasons_buttons_frame">
             <el-row>
                 <el-col :span="8">
@@ -171,6 +167,12 @@
 </template>
 
 <script>
+    import spring_jpg from '../assets/spring.jpg'
+    import summer_jpg from '../assets/summer.jpg'
+    import autumn_jpg from '../assets/autumn.jpg'
+    import winter_jpg from '../assets/winter.jpg'
+// import{RainyDay} from '../js/rainyday'
+
     export default {
         name: "seasons",
         data: function () {
@@ -186,10 +188,11 @@
 
             }
         },
-        created: function () {
+        mounted: function () {
+            // this.createdDropLayer()
             let date = new Date()
             let month = date.getMonth()
-            console.log(month)
+            // console.log(month)
             if (month >= 11 && month < 1) {
                 this.seasonButton('winter')
             } else if (month >= 1 && month < 5) {
@@ -209,7 +212,21 @@
             }
         },
         methods: {
-
+            // createdDropLayer: function () {
+            //     var engine = new RainyDay({
+            //         image: document.getElementById('body'),         // Image element
+            //         // This value is required
+            //         parentElement: document.getElementById('dropLayer'), // Element to be used as a parent for the canvas
+            //         // If not provided assuming the 'body' element
+            //         crop: [0, 0, 50, 60],   // Coordinates if only a part of the image should be used
+            //                                 // If not provided entire image will be used
+            //         blur: 0,               // Defines blur due to rain effect
+            //         // Assuming 10 if not provided
+            //         // Use 0 value to disable the blur
+            //         opacity: 1              // Opacity of rain drops
+            //                                 // Assuming 1 if not provided
+            //     });
+            // },
             toggle: function () {
                 this.play = !this.play
                 let audio = document.getElementById('audio')
@@ -223,27 +240,27 @@
             seasonButton: function (seasonName) {
                 this.play = true
                 if (seasonName == 'spring') {
-                    this.background_season_image = '../assets/spring.jpg'
+                    this.background_season_image = spring_jpg
                     this.music_url = 'http://207.244.97.86/sounds/hipster/birds160.mp3'
 
                 } else if (seasonName == 'summer') {
-                    this.background_season_image = '../assets/summer.jpg'
+                    this.background_season_image = summer_jpg
                     this.music_url = 'http://207.244.97.86/sounds/rain/splashing-rainfall160.mp3'
                 } else if (seasonName == 'autumn') {
-                    this.background_season_image = '../assets/autumn.jpg'
+                    this.background_season_image = autumn_jpg
                     this.music_url = 'https://img.tukuppt.com/newpreview_music/09/04/10/5c8b05faef9c354084.mp3'
                 } else if (seasonName == 'winter') {
-                    this.background_season_image = '../assets/winter.jpg'
+                    this.background_season_image = winter_jpg
                     this.music_url = 'http://207.244.97.86/sounds/hipster/snow.mp3'
                 } else {
                     console.log('点击事件参数错误')
                 }
-                document.getElementById("body").style.backgroundImage="url("+this.background_season_image+")"
+                //应该在mounted之后查找节点，而不是created，那是动漫还没有创建出来
+                document.getElementById("body").style.backgroundImage = "url(" + this.background_season_image + ")"
                 // console.log(document.getElementById("body").style)
 
             }
         },
-
 
 
     }
@@ -267,15 +284,22 @@
 
     #body {
         box-sizing: border-box;
-        height:100vh;
-
+        height: 100vh;
+        background-color: #adc3dc;
         background-image: url("../assets/spring.jpg");
         background-size: cover;
         background-position: center center;
         /*transform: ;*/
     }
 
+    #dropLayer {
+        position: fixed;
+        z-index: 1;
+        height: 100vh;
+    }
+
     #seasons_buttons_frame {
+        z-index: 2;
         position: fixed;
         top: 60%;
         width: 100%;

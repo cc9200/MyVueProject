@@ -16,15 +16,18 @@ const router = new VueRouter({
         {
             path: '/',
             component: NewsCloud,
+            meta:{title:'中文互联网热搜词云'}
 
         },
         {
             path: '/chinaword',
-            component: ChinaWord
+            component: ChinaWord,
+            meta:{title:'成语接龙'}
         },
         {
             path: '/seasons',
-            component: seasons
+            component: seasons,
+            meta:{title:'Sound Of Seasons'}
         },
     ]
 })

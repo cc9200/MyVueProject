@@ -5,7 +5,8 @@
             <p id="updatetime">更新时间：{{lastUpdateTime}}</p>
         </div>
 
-        <div v-for="item in newsList" id="drop"
+        <div v-for="(item,index) in newsList" :key= item.url class="drop"
+
              :style="{
              left:item.left,
              top:item.top,
@@ -17,9 +18,16 @@
             // animationName:item.AnimationName,
 
              }">
-            <a :href=item.url target="_blank">{{item.title}}</a>
+            <a :href=item.url target="_blank" 
+            @mouseover="hover($event,item.imgUrl)"
+            @mouseleave="mouseLeave($event)"
+            >{{item.title}}</a>
+            <br>
         </div>
 
+        <img src="" id='newsImg' alt="" >
+        <el-button id="preButton" @click="swichButtonClick('pre')" type="primary" icon="el-icon-arrow-left">上一项</el-button>
+        <el-button id="nextButton" @click="swichButtonClick('next')" type="primary" icon="el-icon-arrow-left">下一项</el-button>
     </div>
 </template>
 
@@ -31,14 +39,52 @@
         data() {
             return {
                 lastUpdateTime: '',
-                newsList: []
+                newsList: [],
+                windowWidth:1920,
+                windowHeight:1080,
+
             }
         },
         created() {
-
+            this.windowHeight=document.body.clientHeight
+            this.windowWidth=document.body.clientWidth
             this.reqNews()
         },
         methods: {
+            hover:function(e,imgUrl){
+                // console.log(e.x,e.y)
+                let imgX=this.windowWidth/2-200
+                let imgY=this.windowHeight/2-100
+                if(e.x<this.windowWidth/2 && e.y<this.windowHeight/2-100){
+                    imgX=this.windowWidth/2
+                    imgY=0
+                }else if(e.x<this.windowWidth/2 && e.y>this.windowHeight/2-100){
+                    imgX=this.windowWidth/2
+                    imgY=0
+                }else if(e.x>this.windowWidth/2 && e.y>this.windowHeight/2-100){
+                    imgX=0
+                    imgY=0
+                }
+                else if(e.x>this.windowWidth/2 && e.y<this.windowHeight/2-100){
+                    imgX=0
+                    imgY=0
+                }
+                // console.log(e.currentTarget.parentElement.getElementsByTagName('img'))
+                // document.getElementById('root').style.justifyContent='center'
+                document.getElementById('newsImg').style.left=imgX.toString()+'px'
+                document.getElementById('newsImg').style.top=imgY.toString()+'px'
+                document.getElementById('newsImg').src=imgUrl
+            },
+            mouseLeave:function(e){
+                    document.getElementById('newsImg').src=''
+            },
+            swichButtonClick:function(e){
+               if(e=='next'){
+                    this.$router.push('/chinaword')
+                }else if(e=='pre'){
+                    this.$router.push('/seasons')
+                }
+            },
             random_percent: function (range) {
                 return parseInt(Math.random() * range).toString() + "%"
             },
@@ -99,11 +145,15 @@
         top: 20px;
     }
 
+    img#newsImg{
+        position: absolute;
+        max-width: 100%;
+        max-height: 100%;
+    }
 
-
-    #drop  {
+    .drop  {
         position: fixed;
-
+        width:500px;
         top: 10%;
         animation: topToBottom 20s;
         opacity: 0;
@@ -111,9 +161,7 @@
 
     }
 
-    #root > div:hover {
-        position: fixed;
-
+    .drop:hover {
         opacity: 1;
         animation-play-state: paused;
     }
@@ -175,5 +223,30 @@
             left: 100%;
             opacity: 1;
         }
+    }
+    #preButton{
+        position:fixed;
+        bottom:5%;
+        left:-90px;
+    }
+    #nextButton{
+        position:fixed;
+        bottom:5%;
+        right:-90px;
+    }
+    #preButton:hover{
+
+
+        left:0;
+    }
+    #nextButton:hover{
+        right:0px;
+    }
+
+    img.newsImg{
+        display:none;
+    }
+    img.newsImg:hover{
+       display: inline-block;
     }
 </style>
