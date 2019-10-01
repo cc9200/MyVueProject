@@ -5,7 +5,7 @@
             <p id="updatetime">更新时间：{{lastUpdateTime}}</p>
         </div>
 
-        <div v-for="(item,index) in newsList" :key= item.url class="drop"
+        <div v-for="(item) in newsList" :key= item.url class="drop"
 
              :style="{
              left:item.left,
@@ -55,20 +55,14 @@
                 // console.log(e.x,e.y)
                 let imgX=this.windowWidth/2-200
                 let imgY=this.windowHeight/2-100
-                if(e.x<this.windowWidth/2 && e.y<this.windowHeight/2-100){
+                if(e.x<this.windowWidth/2 ){
                     imgX=this.windowWidth/2
-                    imgY=0
-                }else if(e.x<this.windowWidth/2 && e.y>this.windowHeight/2-100){
-                    imgX=this.windowWidth/2
-                    imgY=0
-                }else if(e.x>this.windowWidth/2 && e.y>this.windowHeight/2-100){
-                    imgX=0
-                    imgY=0
+                    imgY=10
+                }else if(e.x>this.windowWidth/2){
+                    imgX=10
+                    imgY=10
                 }
-                else if(e.x>this.windowWidth/2 && e.y<this.windowHeight/2-100){
-                    imgX=0
-                    imgY=0
-                }
+                
                 // console.log(e.currentTarget.parentElement.getElementsByTagName('img'))
                 // document.getElementById('root').style.justifyContent='center'
                 document.getElementById('newsImg').style.left=imgX.toString()+'px'
@@ -132,7 +126,8 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang='less' rel='stylesheet/less'>
+@visitedAcolor:blue;
     #root {
         width: 100vw;
         height: 100vh;
@@ -173,7 +168,7 @@
     }
 
     #root > div > a:visited {
-        color: blue;
+        color:@visitedAcolor;
         text-decoration: none;
 
         /*text-shadow: 0px 3px grey;*/
